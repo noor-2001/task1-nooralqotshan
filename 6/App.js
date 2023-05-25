@@ -1,13 +1,12 @@
-//نور هشام محمود القطشان 120190581
 import React from 'react';
 import {
-  ActivityIndicator,
+  StyleSheet,
+  View,
   ImageBackground,
+  Text,
   KeyboardAvoidingView,
   Platform,
-  StyleSheet,
-  Text,
-  View,
+  ActivityIndicator,
   StatusBar,
 } from 'react-native';
 
@@ -17,17 +16,20 @@ import getImageForWeather from './utils/getImageForWeather';
 import SearchInput from './components/SearchInput';
 
 export default class App extends React.Component {
-  state = {
-    loading: false,
-    error: false,
-    location: '',
-    temperature: 0,
-    weather: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+      error: false,
+      location: '',
+      temperature: 0,
+      weather: '',
+    };
+  }
 
   componentDidMount() {
-    // change default to Gaza
-    this.handleUpdateLocation('Gaza');
+    this.handleUpdateLocation('San Francisco');
   }
 
   handleUpdateLocation = async city => {
@@ -38,12 +40,12 @@ export default class App extends React.Component {
     this.setState({loading: true}, async () => {
       try {
         const locationId = await fetchLocationId(city);
-        const {weather, temperature} = await fetchWeather(locationId);
+        const {location, weather, temperature} = await fetchWeather(locationId);
 
         this.setState({
           loading: false,
           error: false,
-          location: city,
+          location,
           weather,
           temperature,
         });
@@ -126,16 +128,12 @@ const styles = StyleSheet.create({
   textStyle: {
     textAlign: 'center',
     fontFamily: Platform.OS === 'ios' ? 'AvenirNext-Regular' : 'Roboto',
-    // color: '#000',
-    // modify color
-    color: '#fff',
-    // add marginBottom
-    marginBottom: 15,
+    color: 'white',
   },
   largeText: {
-    fontSize: 40,
+    fontSize: 44,
   },
   smallText: {
-    fontSize: 20,
+    fontSize: 18,
   },
 });
